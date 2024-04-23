@@ -17,7 +17,9 @@ def to_monochrome(image_path):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # Se o caminho da imagem monocromática foi passado como argumento
+    monochrome_image = request.args.get('monochrome_image')
+    return render_template('index.html', monochrome_image=monochrome_image)
 
 
 @app.route('/upload', methods=['POST'])
@@ -32,8 +34,9 @@ def upload_file():
             monochrome_image = to_monochrome(file_path)
             # Salva a imagem monocromática
             cv2.imwrite(file_path, monochrome_image)
-            return redirect(url_for('index'))
-
+            cv2.imshow('teste',monochrome_image)
+            # Redireciona para a página inicial e passa o caminho do arquivo monocromático
+            return redirect(url_for('index', monochrome_image=file_path))
 
 if __name__ == '__main__':
     app.run(debug=True)
