@@ -1,0 +1,38 @@
+.about-container .about-text{
+  background-color: #191970;
+  margin: 10px 0;
+  padding: 10px 5px;
+  color: white;
+}
+
+.about-container .about-text p{
+  font-size: 1.2rem;
+}
+
+.about-people{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+
+  margin: 2%;
+}
+
+.about-people .people{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid black;
+  border-radius: 15px;
+}
+
+.about-people .people img{
+  width: 50px;
+  border-radius: 50%;
+}
+
+.about-people .people p{
+  text-justify: auto;
+}
