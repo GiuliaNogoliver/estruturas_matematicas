@@ -32,11 +32,13 @@ def upload_file():
             file.save(file_path)
             # Converte a imagem para monocromático
             monochrome_image = to_monochrome(file_path)
-            # Salva a imagem monocromática
-            cv2.imwrite(file_path, monochrome_image)
-            cv2.imshow('teste',monochrome_image)
-            # Redireciona para a página inicial e passa o caminho do arquivo monocromático
-            return redirect(url_for('index', monochrome_image=file_path))
+            # Salva a imagem monocromática com nome diferente
+            monochrome_filename = f"mono_{filename}"
+            monochrome_path = os.path.join(app.config['UPLOAD_FOLDER'], monochrome_filename)
+            cv2.imwrite(monochrome_path, monochrome_image)
+            cv2.imshow('teste', monochrome_image)
+            # Redireciona e passa o nome do arquivo monocromático
+            return redirect(url_for('index', monochrome_image=monochrome_filename))
 
 if __name__ == '__main__':
     app.run(debug=True)
