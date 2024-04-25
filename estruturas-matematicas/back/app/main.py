@@ -11,7 +11,11 @@ def to_monochrome(image_path):
     # Carrega a imagem
     image = cv2.imread(image_path)
     # Converte para escala de cinza
-    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    for y in range(0, image.shape[0]):
+        for x in range(0, image.shape[1]):
+            (azul, verde, vermelho) = image[y, x]
+            image[y, x] = (azul * 0.114 + verde * 0.587 + vermelho * 0.299)
+    gray_image = image
     return gray_image
 
 
