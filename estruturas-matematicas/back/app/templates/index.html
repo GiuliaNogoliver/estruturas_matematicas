@@ -13,7 +13,8 @@
     </form>
     {% if monochrome_image %}
     <h2>Imagem Monocromática</h2>
-    <img src="{{ url_for(monochrome_image) }}" alt="Imagem Monocromática">
+    <!-- img src="{{ url_for('static', filename='uploads/' + monochrome_image) }}" alt="Imagem Monocromática" /-->
+    <img src="{{ url_for(filename='uploads/' + monochrome_image) }}" alt="Imagem Monocromática">
     {% endif %}
 </body>
 </html>
