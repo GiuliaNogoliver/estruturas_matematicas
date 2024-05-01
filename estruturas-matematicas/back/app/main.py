@@ -27,7 +27,7 @@ def index():
 
 
 @app.route('/upload', methods=['POST'])
-def upload_file():
+def uploadfile():
     if request.method == 'POST':
         file = request.files['file']
         if file:
@@ -37,7 +37,7 @@ def upload_file():
             # Converte a imagem para monocromático
             monochrome_image = to_monochrome(file_path)
             # Salva a imagem monocromática com nome diferente
-            monochrome_filename = f"mono_{filename}"
+            monochrome_filename = f"mono{filename}"
             monochrome_path = os.path.join(app.config['UPLOAD_FOLDER'], monochrome_filename)
             cv2.imwrite(monochrome_path, monochrome_image)
             cv2.imshow('teste', monochrome_image)
