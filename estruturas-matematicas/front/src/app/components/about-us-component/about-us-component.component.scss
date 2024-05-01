@@ -1,8 +1,11 @@
 .about-container .about-text{
   background-color: #191970;
-  margin: 10px 0;
-  padding: 10px 5px;
+  padding: 15px;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .about-container .about-text p{
@@ -19,10 +22,14 @@
 }
 
 .about-people .people{
+  width: 300px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 15px;
+  text-align: center;
 
   border: 1px solid black;
   border-radius: 15px;
@@ -33,6 +40,50 @@
   border-radius: 50%;
 }
 
-.about-people .people p{
-  text-justify: auto;
+.card {
+  width: 200px;
+  height: 200px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.card .content {
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.scroll-text {
+  position: absolute;
+  white-space: nowrap;
+  animation: scroll-right 40s linear infinite;
+}
+
+@keyframes scroll-right {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.scroll-text p {
+  position: relative;
+  top: 140px;
+  padding: 20px;
 }
