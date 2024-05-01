@@ -14,13 +14,15 @@
 
 .edit-container .edit-filters button{
   padding: 20px 10px;
-  width: 200px;
-  background-color: #054f77;
+  width: 138px;
+  height: 58px;
+  background-color: rgb(15, 128, 238);
   color: #FFF;
-  text-transform: uppercase;
-  text-align: center;
-  margin-top: 10px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
 
   border-radius:15px;
   border: none;
