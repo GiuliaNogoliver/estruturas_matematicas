@@ -26,12 +26,12 @@ export class EditComponent {
 
   convertToMonochrome() {
     if (this.imageUrl) {
-      // Extract base64 data from the URL
-      const base64Data = this.imageUrl.split(',')[1]; // Split at the comma and take the second part
-      // Send only the base64 encoded image data to the server
+      // corta a parte que tava estragando e deixa só a base 64
+      const base64Data = this.imageUrl.split(',')[1];
+      // chama o back e manda somente a imagem em base64
       this.http.post<string>('http://127.0.0.1:5000/monochrome', { image_data: base64Data })
         .subscribe((response: any) => {
-          // Update imageUrl with the base64 encoded monochrome image data
+          // tira a imagem de base64 e coloca no lugar da colorida
           this.imageUrl = 'data:image/jpeg;base64,' + response.monochrome_data;
         });
     }
