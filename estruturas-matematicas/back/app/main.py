@@ -1,48 +1,47 @@
-# Arquivo principal da aplicação Flask
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 import cv2
-import os
+import base64
+import numpy as np
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'static/uploads/'
+CORS(app)  # Adiciona suporte para CORS
 
 
-def to_monochrome(image_path):
-    # Carrega a imagem
-    image = cv2.imread(image_path)
-    # Converte para escala de cinza
-    for y in range(0, image.shape[0]):
-        for x in range(0, image.shape[1]):
-            (azul, verde, vermelho) = image[y, x]
-            image[y, x] = (azul * 0.114 + verde * 0.587 + vermelho * 0.299)
-    gray_image = image
-    return gray_image
+def to_monochrome(image):
+    """Converts an image to monochrome (grayscale).
+
+  Args:
+      image: A NumPy array representing the image.
+
+  Returns:
+      A NumPy array representing the monochrome image.
+  """
+    # Convert BGR to grayscale using weighted sum
+    gray = np.dot(image, [0.114, 0.587, 0.299])
+    return gray.astype(np.uint8)  # Ensure byte data type
 
 
-@app.route('/')
-def index():
-    # Se o caminho da imagem monocromática foi passado como argumento
-    monochrome_image = request.args.get('monochrome_image')
-    return render_template('index.html', monochrome_image=monochrome_image)
+@app.route('/monochrome', methods=['POST'])
+def monochrome():
+    # Get image data from request
+    data = request.json
 
+    if data:
+        # Decode base64 encoded image data
+        decoded_data = base64.b64decode(data['image_data'])
+        # Convert decoded data to NumPy array
+        image_array = cv2.imdecode(np.frombuffer(decoded_data, np.uint8), cv2.IMREAD_COLOR)
+        # Convert to monochrome
+        monochrome_image = to_monochrome(image_array)
+        # Encode monochrome image to base64 for response
+        _, encoded_monochrome = cv2.imencode('.png', monochrome_image)
 
-@app.route('/upload', methods=['POST'])
-def uploadfile():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file:
-            filename = file.filename
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
-            # Converte a imagem para monocromático
-            monochrome_image = to_monochrome(file_path)
-            # Salva a imagem monocromática com nome diferente
-            monochrome_filename = f"mono{filename}"
-            monochrome_path = os.path.join(app.config['UPLOAD_FOLDER'], monochrome_filename)
-            cv2.imwrite(monochrome_path, monochrome_image)
-            cv2.imshow('teste', monochrome_image)
-            # Redireciona e passa o nome do arquivo monocromático
-            return redirect(url_for('index', monochrome_image=monochrome_filename))
+        monochrome_data = base64.b64encode(encoded_monochrome).decode('utf-8')
+        return jsonify({'monochrome_data': monochrome_data})
+    else:
+        return jsonify({'error': 'No image data provided'}), 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)
