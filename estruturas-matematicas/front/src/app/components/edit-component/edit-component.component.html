@@ -1,21 +1,23 @@
 <main class="edit-container">
     <div class="edit-filters">
+      <button class="glow-on-hover" (click)="convertToNormal()">Original</button>
       <button class="glow-on-hover" (click)="convertToMonochrome()">Monocromático</button>
-        <button class="glow-on-hover">Escala</button>
-        <button class="glow-on-hover">Rotação</button>
-        <button class="glow-on-hover">Translação</button>
-        <button class="glow-on-hover">Brilho</button>
-        <button class="glow-on-hover" (click)="convertToSepia()">Sépia</button>
-        <button class="glow-on-hover" (click)="convertToNegative()">Negativo</button>
-        <button class="glow-on-hover" (click)="convertToBlue()">Filtro de Luz Azul</button>
-        <button class="glow-on-hover" (click)="convertToRed()">Filtro de Luz Vermelha</button>
-        <button class="glow-on-hover" (click)="convertToGreen()">Filtro de Luz Verde</button>
+      <button class="glow-on-hover">Escala</button>
+      <button class="glow-on-hover">Rotação</button>
+      <button class="glow-on-hover">Translação</button>
+      <button class="glow-on-hover">Brilho</button>
+      <button class="glow-on-hover" (click)="convertToSepia()">Sépia</button>
+      <button class="glow-on-hover" (click)="convertToNegative()">Negativo</button>
+      <button class="glow-on-hover" (click)="convertToBlue()">Filtro de Luz Azul</button>
+      <button class="glow-on-hover" (click)="convertToRed()">Filtro de Luz Vermelha</button>
+      <button class="glow-on-hover" (click)="convertToGreen()">Filtro de Luz Verde</button>
     </div>
     <div class="container-image">
-      <div>
-        <!-- <div class="edit-canvas"> -->
+      <div class="edit-canvas">
           <img [src]="imageUrl" alt="Imagem selecionada">
-        <!-- </div> -->
+          <div class="loading">
+            <img src="../../../assets/LOADING.gif" alt="">
+          </div>
       </div>
     </div>
 

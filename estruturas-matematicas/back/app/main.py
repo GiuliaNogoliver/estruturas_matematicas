@@ -7,7 +7,6 @@ import numpy as np
 app = Flask(__name__)
 CORS(app)  # Adiciona suporte para CORS
 
-
 def to_monochrome(image):
     for y in range(0, image.shape[0]):
       for x in range(0, image.shape[1]):

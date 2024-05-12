@@ -11,6 +11,7 @@
   text-decoration: none;
   font-size: 24px;
   letter-spacing: 4px;
+  margin-top: .5%;
   margin-left: 1%;
   img{
     max-width: 200px;
@@ -26,7 +27,6 @@
 .navbar .navbar-list{
   display: flex;
   list-style: none;
-
   justify-content: center;
   align-items: center;
   margin-right: 2%;
@@ -39,10 +39,12 @@
 
 .navbar .navbar-list .navbar-link:hover:not(:last-child){
   opacity: 0.7;
-  font-size: 1.1rem;
+  color: #26f064;
   transition: .5s ease;
   cursor: pointer;
 }
+
+
 
 .navbar .navbar-list .navbar-link a{
   text-decoration: none;

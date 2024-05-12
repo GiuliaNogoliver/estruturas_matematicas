@@ -138,13 +138,40 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height:400px;
+  min-height: 400px;
   width: 100%;
 
   img {
+    display: inline;
+    max-height: 100%;
+    max-width: 100%;
+  }
+  .edit-canvas {
+    width: 900px;
+    height: 600px;
+    max-width: 1200px;
     max-height: 720px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
     max-width: 80%;
     border: solid gray 2px;
     border-radius: 4px;
+  }
+  
+  .loading {
+    position: absolute;
+    width: 900px;
+    height: 600px;
+    max-width: 1200px;
+    max-height: 720px;display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    max-width: 80%;
+    z-index: 1;
+    background-color: #fff;
+    opacity: 0;
   }
 }
