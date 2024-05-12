@@ -38,7 +38,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  padding: 0 5% 0 5%;
   // margin: 10px 3%;
 }
 
@@ -71,7 +71,6 @@
   display: block;
   margin-top: 10px;
   cursor: pointer;
-
   border-radius:15px;
 }
 
@@ -136,13 +135,16 @@
 }
 
 .container-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height:400px;
   width: 100%;
-  border: solid 2px;
-  border-radius: 4px;
 
   img {
-    height: auto;
-    width: auto;
+    max-height: 720px;
+    max-width: 80%;
+    border: solid gray 2px;
+    border-radius: 4px;
   }
 }

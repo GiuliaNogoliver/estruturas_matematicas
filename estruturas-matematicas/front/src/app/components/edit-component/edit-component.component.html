@@ -5,11 +5,11 @@
         <button class="glow-on-hover">Rotação</button>
         <button class="glow-on-hover">Translação</button>
         <button class="glow-on-hover">Brilho</button>
-        <button class="glow-on-hover">Sépia</button>
-        <button class="glow-on-hover">Negativo</button>
-        <button class="glow-on-hover">Filtro de Luz Azul</button>
-        <button class="glow-on-hover">Filtro de Luz Vermelha</button>
-        <button class="glow-on-hover">Filtro de Luz Verde</button>
+        <button class="glow-on-hover" (click)="convertToSepia()">Sépia</button>
+        <button class="glow-on-hover" (click)="convertToNegative()">Negativo</button>
+        <button class="glow-on-hover" (click)="convertToBlue()">Filtro de Luz Azul</button>
+        <button class="glow-on-hover" (click)="convertToRed()">Filtro de Luz Vermelha</button>
+        <button class="glow-on-hover" (click)="convertToGreen()">Filtro de Luz Verde</button>
     </div>
     <div class="container-image">
       <div>
