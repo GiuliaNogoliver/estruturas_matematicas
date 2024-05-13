@@ -12,6 +12,8 @@
 .container .main-image img{
   width: 50%;
   // height: 91vh;
+  border-radius: 15px;
+  animation: fadeIn 1s linear;
 }
 
 .container .gallery-container{
@@ -40,6 +42,8 @@
   width: 100%;
   height: auto;
   border-radius: 5%;
+  animation: fadeIn 1s linear;
+  transition: 1s all ease;
 }
 
 .container .main-edit .edit{
@@ -68,4 +72,11 @@
   width: 450px;
   border-radius: 15px;
   margin: 15px 0;
+  animation: fadeIn 1s linear;
+}
+
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

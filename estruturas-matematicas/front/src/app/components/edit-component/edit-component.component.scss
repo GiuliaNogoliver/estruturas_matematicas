@@ -128,12 +128,6 @@
   border-radius: 10px;
 }
 
-@keyframes glowing {
-  0% { background-position: 0 0; }
-  50% { background-position: 400% 0; }
-  100% { background-position: 0 0; }
-}
-
 .container-image {
   display: flex;
   align-items: center;
@@ -159,7 +153,7 @@
     border: solid gray 2px;
     border-radius: 4px;
   }
-  
+
   .loading {
     position: absolute;
     width: 900px;
@@ -172,6 +166,22 @@
     max-width: 80%;
     z-index: 1;
     background-color: #fff;
-    opacity: 0;
+    // opacity: 0;
+    visibility: hidden;
+
+    animation: blink 4s infinite linear;
   }
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes blink {
+  0%{opacity: 0.5;}
+  25%{opacity: 1;}
+  50%{opacity: 0.5;}
+  100%{opacity: 1;}
 }
