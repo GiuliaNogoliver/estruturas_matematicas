@@ -13,8 +13,9 @@ export class EditComponent {
   ogImageUrl: string | null = null;
   image: boolean = false;
   loading = document.getElementsByClassName('loading') as HTMLCollectionOf<HTMLElement>;
-  // canva = document.getElementsByClassName('edit-canvas') as HTMLCollectionOf<HTMLElement>;
-  // selectedImage = document.getElementsByClassName('selected-image') as HTMLCollectionOf<HTMLElement>;
+  selectedImage = document.getElementsByClassName('selected-image') as HTMLCollectionOf<HTMLElement>;
+  editCanvas = document.getElementsByClassName('edit-canvas') as HTMLCollectionOf<HTMLElement>;
+  altText = document.getElementsByClassName('alt-text') as HTMLCollectionOf<HTMLElement>;
 
   constructor(private http: HttpClient) {
   }
@@ -26,8 +27,12 @@ export class EditComponent {
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result as string;
       this.ogImageUrl = e.target.result as string;
-      // this.canva[0].style.width = this.selectedImage[0].style.width
-      // this.canva[0].style.height = this.selectedImage[0].style.height
+      this.selectedImage[0].style.border = "ridge #8592ad 5px";
+      this.selectedImage[0].style.borderRadius = "8px";
+      this.editCanvas[0].style.border = "none";
+      this.editCanvas[0].style.borderRadius = "none";
+      this.selectedImage[0].style.visibility = "visible";
+      this.altText[0].style.visibility = "hidden";
       this.image = true;
 
       // this.saveButton.style.visibility = 'visible'
@@ -134,7 +139,6 @@ export class EditComponent {
   }
 
   exportImage(){
-    console.log("chegamo aq")
     if(this.image){
       download((this.imageUrl as string), "image.jpg", "text/plain")
     }
