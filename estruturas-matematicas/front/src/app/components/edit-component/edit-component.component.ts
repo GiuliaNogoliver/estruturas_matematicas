@@ -11,8 +11,6 @@ export class EditComponent {
   ogImageUrl: string | null = null;
   image: boolean = false;
   loading = document.getElementsByClassName('loading') as HTMLCollectionOf<HTMLElement>;
-  selectedImage = document.getElementsByClassName('selected-image') as HTMLCollectionOf<HTMLElement>;
-  editCanvas = document.getElementsByClassName('edit-canvas') as HTMLCollectionOf<HTMLElement>;
 
   constructor(private http: HttpClient) { }
 
@@ -21,10 +19,6 @@ export class EditComponent {
     const reader = new FileReader();
 
     reader.onload = (e: any) => {
-      this.selectedImage[0].style.border = "solid gray 2px";
-      this.selectedImage[0].style.borderRadius = "4px";
-      this.editCanvas[0].style.border = "none";
-      this.editCanvas[0].style.borderRadius = "none";
       this.imageUrl = e.target.result as string;
       this.ogImageUrl = e.target.result as string;
       this.image = true;
