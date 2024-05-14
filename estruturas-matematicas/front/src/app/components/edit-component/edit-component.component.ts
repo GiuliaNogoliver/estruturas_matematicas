@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import download from 'downloadjs';
 
 @Component({
   selector: 'app-edit-component',
   templateUrl: './edit-component.component.html',
   styleUrls: ['./edit-component.component.scss']
 })
+
 export class EditComponent {
   imageUrl: string | null = null;
   ogImageUrl: string | null = null;
@@ -15,7 +17,8 @@ export class EditComponent {
   editCanvas = document.getElementsByClassName('edit-canvas') as HTMLCollectionOf<HTMLElement>;
   altText = document.getElementsByClassName('alt-text') as HTMLCollectionOf<HTMLElement>;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
@@ -30,7 +33,15 @@ export class EditComponent {
       this.altText[0].style.visibility = "hidden";
       this.imageUrl = e.target.result as string;
       this.ogImageUrl = e.target.result as string;
+      this.selectedImage[0].style.border = "ridge #8592ad 5px";
+      this.selectedImage[0].style.borderRadius = "8px";
+      this.editCanvas[0].style.border = "none";
+      this.editCanvas[0].style.borderRadius = "none";
+      this.selectedImage[0].style.visibility = "visible";
+      this.altText[0].style.visibility = "hidden";
       this.image = true;
+
+      // this.saveButton.style.visibility = 'visible'
     };
 
     reader.readAsDataURL(file);
@@ -45,7 +56,11 @@ export class EditComponent {
       this.http.post<string>('http://127.0.0.1:5000/monochrome', { image_data: base64Data })
         .subscribe((response: any) => {
           // tira a imagem de base64 e coloca no lugar da colorida
+<<<<<<< HEAD
           this.imageUrl = 'data:image/jpeg;base64,' + response.monochrome_data; 
+=======
+          this.imageUrl = 'data:image/jpeg;base64,' + response.monochrome_data;
+>>>>>>> downloadimg
           this.loading[0].style.visibility = "hidden";
         });
     }
@@ -131,5 +146,12 @@ export class EditComponent {
           this.loading[0].style.visibility = "hidden";
         });
     }
+  }
+
+  exportImage(){
+    if(this.image){
+      download((this.imageUrl as string), "image.jpg", "text/plain")
+    }
+
   }
 }

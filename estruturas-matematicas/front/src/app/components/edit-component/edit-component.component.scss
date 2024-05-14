@@ -15,7 +15,7 @@
 .alt-text{
   position: absolute;
   font-size: 2.5vh;
-  opacity: 0.2; 
+  opacity: 0.2;
   z-index: -1;
 }
 
@@ -135,10 +135,11 @@
   border-radius: 10px;
 }
 
-@keyframes glowing {
-  0% { background-position: 0 0; }
-  50% { background-position: 400% 0; }
-  100% { background-position: 0 0; }
+.alt-text{
+  position: absolute;
+  font-size: 2.5vh;
+  opacity: 0.2;
+  z-index: -1;
 }
 
 .container-image {
@@ -163,43 +164,22 @@
     justify-content: center;
     align-content: center;
     max-width: 80%;
-    border: ridge #8592ad 5px;
-    border-radius: 8px;
-  }
-  
-  .selected-image{
-    visibility: hidden;
+    border: solid gray 2px;
+    border-radius: 4px;
   }
 
   .loading {
     position: absolute;
-    display: flex;
-    width: 950px;
-    height: 650px;
-    max-width: 1250px;
-    max-height: 770px;
-    display: flex;
+    width: 900px;
+    height: 600px;
+    max-width: 1200px;
+    max-height: 720px;display: flex;
     align-items: center;
     justify-content: center;
     align-content: center;
     max-width: 80%;
     z-index: 1;
     background-color: #fff;
-    visibility: hidden;
-    animation: blink 4s infinite linear;
+    opacity: 0;
   }
-}
-
-@keyframes glowing {
-  0% { background-position: 0 0; }
-  50% { background-position: 400% 0; }
-  100% { background-position: 0 0; }
-}
-
-@keyframes blink {
-  0%{opacity: 0.5;}
-  25%{opacity: 1;}
-  50%{opacity: 0.5;}
-  75%{opacity: 1;}
-  100%{opacity: 0.5;}
 }

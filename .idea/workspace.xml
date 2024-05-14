@@ -6,9 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="ab7c71b1-cc6c-4cc2-9b3f-f718993d54d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/estruturas-matematicas/back/README.MD" beforeDir="false" afterPath="$PROJECT_DIR$/estruturas-matematicas/back/README.MD" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/estruturas-matematicas/front/src/app/components/about-us-component/about-us-component.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/estruturas-matematicas/front/src/app/components/about-us-component/about-us-component.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/estruturas-matematicas/front/src/app/components/about-us-component/about-us-component.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/estruturas-matematicas/front/src/app/components/about-us-component/about-us-component.component.scss" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/estruturas-matematicas/front/src/app/components/edit-component/edit-component.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/estruturas-matematicas/front/src/app/components/edit-component/edit-component.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/estruturas-matematicas/front/src/app/components/edit-component/edit-component.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/estruturas-matematicas/front/src/app/components/edit-component/edit-component.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/estruturas-matematicas/front/src/app/components/edit-component/edit-component.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/estruturas-matematicas/front/src/app/components/edit-component/edit-component.component.ts" afterDir="false" />
+>>>>>>> downloadimg
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +44,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "downloadimg",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/Giulia Nogueira/Documentos/Universidade Repoitories/estruturas_matematicas",
     "run.code.analysis.last.selected.profile": "pProject Default",
