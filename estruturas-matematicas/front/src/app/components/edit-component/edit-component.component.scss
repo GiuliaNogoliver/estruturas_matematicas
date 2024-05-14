@@ -162,16 +162,34 @@
   
   .loading {
     position: absolute;
-    width: 900px;
-    height: 600px;
-    max-width: 1200px;
-    max-height: 720px;display: flex;
+    width: 950px;
+    height: 650px;
+    max-width: 1250px;
+    max-height: 770px;
+    display: flex;
     align-items: center;
     justify-content: center;
     align-content: center;
     max-width: 80%;
     z-index: 1;
     background-color: #fff;
-    opacity: 0;
+    // opacity: 0;
+    visibility: hidden;
+
+    animation: blink 4s infinite linear;
   }
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes blink {
+  0%{opacity: 0.5;}
+  25%{opacity: 1;}
+  50%{opacity: 0.5;}
+  75%{opacity: 1;}
+  100%{opacity: 0.5;}
 }
