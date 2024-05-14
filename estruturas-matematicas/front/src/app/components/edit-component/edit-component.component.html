@@ -28,6 +28,6 @@
               <input type="file" name="image" id="image" (change)="onFileSelected($event)">
           </div>
       </form>
-      <button class="save-btn"> Salvar Imagem</button>
+      <button class="save-btn" (click)="exportImage()" [disabled]="!image"> Salvar Imagem</button>
   </div>
 </main>

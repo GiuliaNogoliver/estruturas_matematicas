@@ -1,11 +1,13 @@
 import { Component, Renderer2 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import download from 'downloadjs';
 
 @Component({
   selector: 'app-edit-component',
   templateUrl: './edit-component.component.html',
   styleUrls: ['./edit-component.component.scss']
 })
+
 export class EditComponent {
   imageUrl: string | null = null;
   ogImageUrl: string | null = null;
@@ -14,7 +16,8 @@ export class EditComponent {
   // canva = document.getElementsByClassName('edit-canvas') as HTMLCollectionOf<HTMLElement>;
   // selectedImage = document.getElementsByClassName('selected-image') as HTMLCollectionOf<HTMLElement>;
 
-  constructor(private http: HttpClient, private renderer:Renderer2) { }
+  constructor(private http: HttpClient) {
+  }
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
@@ -26,6 +29,8 @@ export class EditComponent {
       // this.canva[0].style.width = this.selectedImage[0].style.width
       // this.canva[0].style.height = this.selectedImage[0].style.height
       this.image = true;
+
+      // this.saveButton.style.visibility = 'visible'
     };
 
     reader.readAsDataURL(file);
@@ -126,5 +131,13 @@ export class EditComponent {
           this.loading[0].style.visibility = "hidden";
         });
     }
+  }
+
+  exportImage(){
+    console.log("chegamo aq")
+    if(this.image){
+      download((this.imageUrl as string), "image.jpg", "text/plain")
+    }
+
   }
 }
