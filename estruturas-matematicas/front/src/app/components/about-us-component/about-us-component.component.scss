@@ -1,7 +1,7 @@
 .about-container .about-text{
   background-color: #191970;
   padding: 15px;
-  color: white;
+  color: rgb(255, 255, 255);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,7 +36,7 @@
 }
 
 .about-people .people img{
-  width: 50px;
+  width: 100px;
   border-radius: 50%;
 }
 
@@ -65,25 +65,4 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
-}
-
-.scroll-text {
-  position: absolute;
-  white-space: nowrap;
-  animation: scroll-right 40s linear infinite;
-}
-
-@keyframes scroll-right {
-  from {
-    transform: translateX(0%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-.scroll-text p {
-  position: relative;
-  top: 140px;
-  padding: 20px;
 }
