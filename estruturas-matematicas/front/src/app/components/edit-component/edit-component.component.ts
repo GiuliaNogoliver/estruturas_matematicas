@@ -11,6 +11,9 @@ export class EditComponent {
   ogImageUrl: string | null = null;
   image: boolean = false;
   loading = document.getElementsByClassName('loading') as HTMLCollectionOf<HTMLElement>;
+  selectedImage = document.getElementsByClassName('selected-image') as HTMLCollectionOf<HTMLElement>;
+  editCanvas = document.getElementsByClassName('edit-canvas') as HTMLCollectionOf<HTMLElement>;
+  altText = document.getElementsByClassName('alt-text') as HTMLCollectionOf<HTMLElement>;
 
   constructor(private http: HttpClient) { }
 
@@ -19,6 +22,12 @@ export class EditComponent {
     const reader = new FileReader();
 
     reader.onload = (e: any) => {
+      this.selectedImage[0].style.border = "ridge #8592ad 5px";
+      this.selectedImage[0].style.borderRadius = "8px";
+      this.editCanvas[0].style.border = "none";
+      this.editCanvas[0].style.borderRadius = "none";
+      this.selectedImage[0].style.visibility = "visible";
+      this.altText[0].style.visibility = "hidden";
       this.imageUrl = e.target.result as string;
       this.ogImageUrl = e.target.result as string;
       this.image = true;
@@ -29,15 +38,15 @@ export class EditComponent {
 
   convertToMonochrome() {
     if (this.imageUrl) {
-      this.loading[0].style.opacity = "0.5";
+      this.loading[0].style.visibility = "visible";
       // corta a parte que tava estragando e deixa só a base 64
       const base64Data = this.imageUrl.split(',')[1];
       // chama o back e manda somente a imagem em base64
       this.http.post<string>('http://127.0.0.1:5000/monochrome', { image_data: base64Data })
         .subscribe((response: any) => {
           // tira a imagem de base64 e coloca no lugar da colorida
-          this.imageUrl = 'data:image/jpeg;base64,' + response.monochrome_data;
-          this.loading[0].style.opacity = "0";
+          this.imageUrl = 'data:image/jpeg;base64,' + response.monochrome_data; 
+          this.loading[0].style.visibility = "hidden";
         });
     }
   }
@@ -51,7 +60,7 @@ export class EditComponent {
 
   convertToSepia() {
     if (this.imageUrl) {
-      this.loading[0].style.opacity = "0.5";
+      this.loading[0].style.visibility = "visible";
       // corta a parte que tava estragando e deixa só a base 64
       const base64Data = this.imageUrl.split(',')[1];
       // chama o back e manda somente a imagem em base64
@@ -59,14 +68,14 @@ export class EditComponent {
         .subscribe((response: any) => {
           // tira a imagem de base64 e coloca no lugar da colorida
           this.imageUrl = 'data:image/jpeg;base64,' + response.sepia_data;
-          this.loading[0].style.opacity = "0";
+          this.loading[0].style.visibility = "hidden";
         });
     }
   }
 
   convertToNegative() {
     if (this.imageUrl) {
-      this.loading[0].style.opacity = "0.5";
+      this.loading[0].style.visibility = "visible";
       // corta a parte que tava estragando e deixa só a base 64
       const base64Data = this.imageUrl.split(',')[1];
       // chama o back e manda somente a imagem em base64
@@ -74,14 +83,14 @@ export class EditComponent {
         .subscribe((response: any) => {
           // tira a imagem de base64 e coloca no lugar da colorida
           this.imageUrl = 'data:image/jpeg;base64,' + response.negative_data;
-          this.loading[0].style.opacity = "0";
+          this.loading[0].style.visibility = "hidden";
         });
     }
   }
 
   convertToBlue() {
     if (this.imageUrl) {
-      this.loading[0].style.opacity = "0.5";
+      this.loading[0].style.visibility = "visible";
       // corta a parte que tava estragando e deixa só a base 64
       const base64Data = this.imageUrl.split(',')[1];
       // chama o back e manda somente a imagem em base64
@@ -89,14 +98,14 @@ export class EditComponent {
         .subscribe((response: any) => {
           // tira a imagem de base64 e coloca no lugar da colorida
           this.imageUrl = 'data:image/jpeg;base64,' + response.blue_data;
-          this.loading[0].style.opacity = "0";
+          this.loading[0].style.visibility = "hidden";
         });
     }
   }
 
   convertToRed() {
     if (this.imageUrl) {
-      this.loading[0].style.opacity = "0.5";
+      this.loading[0].style.visibility = "visible";
       // corta a parte que tava estragando e deixa só a base 64
       const base64Data = this.imageUrl.split(',')[1];
       // chama o back e manda somente a imagem em base64
@@ -104,14 +113,14 @@ export class EditComponent {
         .subscribe((response: any) => {
           // tira a imagem de base64 e coloca no lugar da colorida
           this.imageUrl = 'data:image/jpeg;base64,' + response.red_data;
-          this.loading[0].style.opacity = "0";
+          this.loading[0].style.visibility = "hidden";
         });
     }
   }
 
   convertToGreen() {
     if (this.imageUrl) {
-      this.loading[0].style.opacity = "0.5";
+      this.loading[0].style.visibility = "visible";
       // corta a parte que tava estragando e deixa só a base 64
       const base64Data = this.imageUrl.split(',')[1];
       // chama o back e manda somente a imagem em base64
@@ -119,7 +128,7 @@ export class EditComponent {
         .subscribe((response: any) => {
           // tira a imagem de base64 e coloca no lugar da colorida
           this.imageUrl = 'data:image/jpeg;base64,' + response.green_data;
-          this.loading[0].style.opacity = "0";
+          this.loading[0].style.visibility = "hidden";
         });
     }
   }
