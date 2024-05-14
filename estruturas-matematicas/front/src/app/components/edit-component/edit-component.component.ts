@@ -56,11 +56,7 @@ export class EditComponent {
       this.http.post<string>('http://127.0.0.1:5000/monochrome', { image_data: base64Data })
         .subscribe((response: any) => {
           // tira a imagem de base64 e coloca no lugar da colorida
-<<<<<<< HEAD
-          this.imageUrl = 'data:image/jpeg;base64,' + response.monochrome_data; 
-=======
           this.imageUrl = 'data:image/jpeg;base64,' + response.monochrome_data;
->>>>>>> downloadimg
           this.loading[0].style.visibility = "hidden";
         });
     }
