@@ -3,31 +3,41 @@
       <button class="glow-on-hover" (click)="convertToNormal()">Original</button>
       <button class="glow-on-hover" (click)="convertToMonochrome()">Monocromático</button>
       <button class="glow-on-hover">Escala</button>
-      <button class="glow-on-hover">Rotação</button>
       <button class="glow-on-hover">Translação</button>
-      <button class="glow-on-hover">Brilho</button>
       <button class="glow-on-hover" (click)="convertToSepia()">Sépia</button>
       <button class="glow-on-hover" (click)="convertToNegative()">Negativo</button>
       <button class="glow-on-hover" (click)="convertToBlue()">Filtro de Luz Azul</button>
       <button class="glow-on-hover" (click)="convertToRed()">Filtro de Luz Vermelha</button>
       <button class="glow-on-hover" (click)="convertToGreen()">Filtro de Luz Verde</button>
     </div>
+
     <div class="container-image">
       <div class="edit-canvas">
           <img class="selected-image" [src]="imageUrl" alt="Imagem selecionada">
+          <div class="alt-text">Escolha uma imagem de seu computador!</div>
           <div class="loading">
-            <img src="../../../assets/ImageEasy.png" alt="">
+            <img src="../../../assets/ImageEasy colored.png" alt="">
           </div>
       </div>
+    </div>
+
+    <div class="edit-filters">
+      Escala: <p class="escala">1</p>
+      <input type="range" class="range" min="0.5" max="2" step="0.01" (change)="scaleValue($event)" (oninput)="scaleValue($event)">
+      Brilho: <p class="brilho">1</p>
+      <input type="range" class="range" min="0" max="2" step="0.01" (change)="brightnessValue($event)" (oninput)="brightnessValue($event)">
+      Rotação: <p class="rotacao">0</p>
+      <input type="range" class="range" min="0" max="360" step="1" (change)="rotationValue($event)" (oninput)="rotationValue($event)">
+      <button class="glow-on-hover" (click)="applyChanges()">Enviar Alterações</button>
     </div>
 
     <div class="edit-form-div">
       <form class="edit-form">
           <div>
-              <label for="image">Escolher Imagem! </label>
+              <label for="image" style="font-size:15px;">Escolher Imagem</label>
               <input type="file" name="image" id="image" (change)="onFileSelected($event)">
           </div>
       </form>
-      <button class="save-btn" (click)="exportImage()" [disabled]="!image"> Salvar Imagem</button>
+      <button class="save-btn" (click)="exportImage()" [disabled]="!image" style="font-size:15px;"> Salvar Imagem</button>
   </div>
 </main>

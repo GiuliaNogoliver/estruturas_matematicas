@@ -13,10 +13,27 @@ export class EditComponent {
   ogImageUrl: string | null = null;
   image: boolean = false;
   loading = document.getElementsByClassName('loading') as HTMLCollectionOf<HTMLElement>;
-  // canva = document.getElementsByClassName('edit-canvas') as HTMLCollectionOf<HTMLElement>;
-  // selectedImage = document.getElementsByClassName('selected-image') as HTMLCollectionOf<HTMLElement>;
+  altText = document.getElementsByClassName('alt-text') as HTMLCollectionOf<HTMLElement>;
+  selectedImage = document.getElementsByClassName('selected-image') as HTMLCollectionOf<HTMLElement>;
+  scale = document.getElementsByClassName('escala') as HTMLCollectionOf<HTMLElement>;
+  brightness = document.getElementsByClassName('brilho') as HTMLCollectionOf<HTMLElement>;
+  rotation = document.getElementsByClassName('rotacao') as HTMLCollectionOf<HTMLElement>;
+  ranges = document.getElementsByTagName('range')  as HTMLCollectionOf<HTMLElement>;
 
   constructor(private http: HttpClient) {
+  }
+
+  scaleValue(event: any){
+    console.log(event.target.value)
+    this.scale[0].innerHTML = event.target.value
+  }
+  brightnessValue(event: any){
+    console.log(event.target.value)
+    this.brightness[0].innerHTML = event.target.value
+  }
+  rotationValue(event: any){
+    console.log(event.target.value)
+    this.rotation[0].innerHTML = event.target.value
   }
 
   onFileSelected(event: any): void {
@@ -29,11 +46,29 @@ export class EditComponent {
       // this.canva[0].style.width = this.selectedImage[0].style.width
       // this.canva[0].style.height = this.selectedImage[0].style.height
       this.image = true;
-
-      // this.saveButton.style.visibility = 'visible'
+      this.selectedImage[0].style.visibility = 'visible'
+      this.altText[0].style.visibility = 'hidden'
     };
 
     reader.readAsDataURL(file);
+  }
+
+  applyChanges() {
+    if (this.imageUrl) {
+      this.loading[0].style.visibility = "visible";
+      // corta a parte que tava estragando e deixa só a base 64
+      const base64Data = this.imageUrl.split(',')[1];
+      const scaleNum = this.scale[0].innerHTML;
+      const brightnessNum = this.brightness[0].innerHTML; 
+      const rotationNum = this.rotation[0].innerHTML;
+      // chama o back e manda somente a imagem em base64
+      this.http.post<string>('http://127.0.0.1:5000/apply', { image_data: base64Data, scale_data: scaleNum, brightness_data: brightnessNum, rotation_data: rotationNum})
+        .subscribe((response: any) => {
+          // tira a imagem de base64 e coloca no lugar da colorida
+          this.imageUrl = 'data:image/jpeg;base64,' + response.monochrome_data;
+          this.loading[0].style.visibility = "hidden";
+        });
+    }
   }
 
   convertToMonochrome() {
@@ -134,7 +169,6 @@ export class EditComponent {
   }
 
   exportImage(){
-    console.log("chegamo aq")
     if(this.image){
       download((this.imageUrl as string), "image.jpg", "text/plain")
     }

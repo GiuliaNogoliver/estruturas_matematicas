@@ -3,78 +3,168 @@ from flask_cors import CORS, cross_origin
 import cv2
 import base64
 import numpy as np
+import math
 
 app = Flask(__name__)
 CORS(app)  # Adiciona suporte para CORS
 
-def to_monochrome(image):
-    for y in range(0, image.shape[0]):
-      for x in range(0, image.shape[1]):
+def to_monochrome(rgb):
 
-        (azul,verde,vermelho) = image[y,x]
-        image[y,x] = (azul*0.114+verde*0.587+vermelho*0.299)
+    r, g, b= rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
 
-    return image.astype(np.uint8)
+    gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
 
-def to_blue(image):
-    for y in range(0, image.shape[0]):
-      for x in range(0, image.shape[1]):
+    return gray.astype(np.uint8)
 
-        (azul,verde,vermelho) = image[y,x]
-        image[y,x] = (azul,0,0)
+def to_blue(rgb):
 
-    return image.astype(np.uint8)
+    r, g, b= rgb[:,:,0], rgb[:,:,1], rgb[:,:,2] 
 
-def to_green(image):
-    for y in range(0, image.shape[0]):
-      for x in range(0, image.shape[1]):
+    blue = np.dstack((b,g*0,r*0))
 
-        (azul,verde,vermelho) = image[y,x]
-        image[y,x] = (0,verde,0)
+    return blue.astype(np.uint8)
 
-    return image.astype(np.uint8)
+def to_green(rgb):
 
-def to_red(image):
-    for y in range(0, image.shape[0]):
-      for x in range(0, image.shape[1]):
+    r, g, b= rgb[:,:,0], rgb[:,:,1], rgb[:,:,2] 
 
-        (azul,verde,vermelho) = image[y,x]
-        image[y,x] = (0,0,vermelho)
+    green = np.dstack((b*0,g,r*0))
 
-    return image.astype(np.uint8)
+    return green.astype(np.uint8)
 
-def to_sepia(image):
-    for y in range(0, image.shape[0]):
-      for x in range(0, image.shape[1]):
+def to_red(rgb):
 
-        (azul,verde,vermelho) = image[y,x]
-        tr = int(0.393 * vermelho + 0.769 * verde + 0.189 * azul)
-        tg = int(0.349 * vermelho + 0.686 * verde + 0.168 * azul)
-        tb = int(0.272 * vermelho + 0.534 * verde + 0.131 * azul)
+    r, g, b= rgb[:,:,0], rgb[:,:,1], rgb[:,:,2] 
 
-        if tr > 255:
-            tr = 255
+    red = np.dstack((b*0,g*0,r))
 
-        if tg > 255:
-            tg = 255
+    return red.astype(np.uint8)
 
-        if tb > 255:
-            tb = 255
-        image[y,x] = (tb,tg,tr)
+def to_sepia(rgb):
+    
+    r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
 
-    return image.astype(np.uint8)
+    tr = 0.393 * r + 0.769 * g + 0.189 * b
+    tg = 0.349 * r + 0.686 * g + 0.168 * b
+    tb = 0.272 * r + 0.534 * g + 0.131 * b
 
-def to_negative(image):
-    for y in range(0, image.shape[0]):
-      for x in range(0, image.shape[1]):
+    tr[tr>255] = 255
+    tg[tg>255] = 255
+    tb[tb>255] = 255
 
-        (azul,verde,vermelho) = image[y,x]
-        tr = int(255 - vermelho)
-        tg = int(255 - verde)
-        tb = int(255 - azul)
+    sepia = np.dstack((tb,tg,tr))
 
-        image[y,x] = (tb,tg,tr)
-    return image.astype(np.uint8)
+    return sepia.astype(np.uint8)
+
+def to_negative(rgb):
+    
+    r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
+
+    tr = 255 - r
+    tg = 255 - g
+    tb = 255 - b
+
+    negative = np.dstack((tr,tg,tb))
+
+    return negative.astype(np.uint8)
+
+def shear(angle,x,y):
+    '''
+    |1  -tan(𝜃/2) |  |1        0|  |1  -tan(𝜃/2) | 
+    |0      1     |  |sin(𝜃)   1|  |0      1     |
+    '''
+    # shear 1
+    tangent=math.tan(angle/2)
+    new_x=round(x-y*tangent)
+    new_y=y
+    
+    #shear 2
+    new_y=round(new_x*math.sin(angle)+new_y)
+
+    #shear 3
+    new_x=round(new_x-new_y*tangent)
+    
+    return new_y,new_x
+
+
+def to_changes(img,scale,bright,angle):
+
+    image = np.array(img)
+
+    
+    angle=math.radians(int(angle))
+    cosine=math.cos(angle)
+    sine=math.sin(angle)
+
+    height=image.shape[0]
+    width=image.shape[1]
+
+    new_height  = round(abs(image.shape[0]*cosine)+abs(image.shape[1]*sine))+1
+    new_width  = round(abs(image.shape[1]*cosine)+abs(image.shape[0]*sine))+1
+
+    output=np.zeros((new_height,new_width,image.shape[2]))
+    image_copy=output.copy()
+
+    original_centre_height   = round(((image.shape[0]+1)/2)-1)
+    original_centre_width    = round(((image.shape[1]+1)/2)-1)
+
+   
+    new_centre_height= round(((new_height+1)/2)-1)
+    new_centre_width= round(((new_width+1)/2)-1)  
+
+
+    for i in range(height):
+        for j in range(width):
+            
+            y=image.shape[0]-1-i-original_centre_height                   
+            x=image.shape[1]-1-j-original_centre_width 
+
+                             
+            new_y,new_x=shear(angle,x,y)
+
+            
+            
+            new_y=new_centre_height-new_y
+            new_x=new_centre_width-new_x
+
+            output[new_y,new_x,:]=image[i,j,:]
+
+    r, g, b = output[:,:,0], output[:,:,1], output[:,:,2]
+
+    bright = float(bright)
+
+    tr = r * bright
+    tg = g * bright
+    tb = b * bright
+
+    img2 = np.dstack((tr,tg,tb))
+
+
+    return img2
+
+@app.route('/apply', methods=['POST'])
+def apply():
+    # pega a ibagem do request
+    data = request.json
+
+    if data:
+        # tira do base64 e coloca em ibagem
+        decoded_data = base64.b64decode(data['image_data'])
+        scale, brightness, rotation = data['scale_data'], data['brightness_data'], data['rotation_data']
+        # converte po numpy array
+        image_array = cv2.imdecode(np.frombuffer(decoded_data, np.uint8), cv2.IMREAD_COLOR)
+        # converte para monocromatica
+        monochrome_image = to_changes(image_array, scale, brightness, rotation)
+        # codifica p base64 denovo
+        _, encoded_monochrome = cv2.imencode('.png', monochrome_image)
+
+        monochrome_data = base64.b64encode(encoded_monochrome).decode('utf-8')
+
+        # devolve a responde
+        return jsonify({'monochrome_data': monochrome_data})
+    else:
+        # se bichar ent quebra
+        return jsonify({'error': 'No image data provided'}), 400
 
 @app.route('/monochrome', methods=['POST'])
 def monochrome():
