@@ -2,6 +2,7 @@ import { Component, Renderer2 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import download from 'downloadjs';
 
+
 @Component({
   selector: 'app-edit-component',
   templateUrl: './edit-component.component.html',
@@ -9,12 +10,14 @@ import download from 'downloadjs';
 })
 
 export class EditComponent {
+
   imageUrl: string | null = null;
   ogImageUrl: string | null = null;
   image: boolean = false;
   loading = document.getElementsByClassName('loading') as HTMLCollectionOf<HTMLElement>;
   altText = document.getElementsByClassName('alt-text') as HTMLCollectionOf<HTMLElement>;
   selectedImage = document.getElementsByClassName('selected-image') as HTMLCollectionOf<HTMLElement>;
+  editCanvas = document.getElementsByClassName('edit-canvas') as HTMLCollectionOf<HTMLElement>;
   scale = document.getElementsByClassName('escala') as HTMLCollectionOf<HTMLElement>;
   brightness = document.getElementsByClassName('brilho') as HTMLCollectionOf<HTMLElement>;
   rotation = document.getElementsByClassName('rotacao') as HTMLCollectionOf<HTMLElement>;
@@ -36,6 +39,7 @@ export class EditComponent {
     this.rotation[0].innerHTML = event.target.value
   }
 
+
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -43,8 +47,10 @@ export class EditComponent {
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result as string;
       this.ogImageUrl = e.target.result as string;
-      // this.canva[0].style.width = this.selectedImage[0].style.width
-      // this.canva[0].style.height = this.selectedImage[0].style.height
+      this.selectedImage[0].style.border = "ridge #8592ad 5px";
+      this.selectedImage[0].style.borderRadius = "8px";
+      this.editCanvas[0].style.border = "none";
+      this.editCanvas[0].style.borderRadius = "none";
       this.image = true;
       this.selectedImage[0].style.visibility = 'visible'
       this.altText[0].style.visibility = 'hidden'

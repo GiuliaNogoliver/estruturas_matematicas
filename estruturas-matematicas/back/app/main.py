@@ -4,6 +4,7 @@ import cv2
 import base64
 import numpy as np
 import math
+from itertools import chain
 
 app = Flask(__name__)
 CORS(app)  # Adiciona suporte para CORS
@@ -68,79 +69,98 @@ def to_negative(rgb):
 
     return negative.astype(np.uint8)
 
+def set_scale(img,h,w):
+    
+    scale_h = h / img.shape[0]
+    scale_w = w / img.shape[1]
+ 
+    rows = np.arange(h)[:, np.newaxis] / scale_h
+    cols = np.arange(w) / scale_w
+    new_img = img[np.floor(rows).astype(int), np.floor(cols).astype(int)]
+ 
+    return new_img.astype(np.uint8)
+
 def shear(angle,x,y):
-    '''
-    |1  -tan(𝜃/2) |  |1        0|  |1  -tan(𝜃/2) | 
-    |0      1     |  |sin(𝜃)   1|  |0      1     |
-    '''
-    # shear 1
+
     tangent=math.tan(angle/2)
-    new_x=round(x-y*tangent)
+    new_x=np.round(x-y*tangent)
     new_y=y
     
-    #shear 2
-    new_y=round(new_x*math.sin(angle)+new_y)
+    new_y=np.round(new_x*math.sin(angle)+new_y)
 
-    #shear 3
-    new_x=round(new_x-new_y*tangent)
+    new_x=np.round(new_x-new_y*tangent)        
     
     return new_y,new_x
 
+def set_angle(img,angle):
+
+    rot_rad = angle * np.pi / 180.0
+    rotate_m = np.array([[np.cos(rot_rad), np.sin(rot_rad)],
+                         [- np.sin(rot_rad), np.cos(rot_rad)]])
+
+    gray_scale = False
+    if len(img.shape) < 3:
+        img = img.reshape(*img.shape, 1)
+        gray_scale = True
+
+    h, w, c = img.shape
+
+    rotated_image = np.zeros((h, w, c))
+
+    indices_org = np.array(np.meshgrid(np.arange(h), np.arange(w))).reshape(2, -1)
+    indices_new = indices_org.copy()
+    indices_new = np.dot(rotate_m, indices_new).astype(int)   # Apply the affineWrap
+    mu1 = np.mean(indices_new, axis=1).astype(int).reshape((-1, 1))
+    mu2 = np.mean(indices_org, axis=1).astype(int).reshape((-1, 1))
+    indices_new += (mu2-mu1)   
+
+    t0, t1 = indices_new
+    t0 = (0 <= t0) & (t0 < h)
+    t1 = (0 <= t1) & (t1 < w)
+    valid = t0 & t1
+    indices_new = indices_new.T[valid].T
+    indices_org = indices_org.T[valid].T
+
+    #
+    xind, yind = indices_new
+    xi,yi=shear(angle,xind,yind)
+    xi, yi = indices_org
+    rotated_image[xi, yi, :] = img[xind, yind, :]
+
+    if gray_scale:
+        rotated_image = rotated_image.reshape((h, w))
+
+    return rotated_image.astype(np.uint8)
 
 def to_changes(img,scale,bright,angle):
 
+
     image = np.array(img)
-
+    scale = float(scale)
+    angle = float(angle)
     
-    angle=math.radians(int(angle))
-    cosine=math.cos(angle)
-    sine=math.sin(angle)
-
-    height=image.shape[0]
-    width=image.shape[1]
-
-    new_height  = round(abs(image.shape[0]*cosine)+abs(image.shape[1]*sine))+1
-    new_width  = round(abs(image.shape[1]*cosine)+abs(image.shape[0]*sine))+1
-
-    output=np.zeros((new_height,new_width,image.shape[2]))
-    image_copy=output.copy()
-
-    original_centre_height   = round(((image.shape[0]+1)/2)-1)
-    original_centre_width    = round(((image.shape[1]+1)/2)-1)
-
-   
-    new_centre_height= round(((new_height+1)/2)-1)
-    new_centre_width= round(((new_width+1)/2)-1)  
-
-
-    for i in range(height):
-        for j in range(width):
-            
-            y=image.shape[0]-1-i-original_centre_height                   
-            x=image.shape[1]-1-j-original_centre_width 
-
-                             
-            new_y,new_x=shear(angle,x,y)
-
-            
-            
-            new_y=new_centre_height-new_y
-            new_x=new_centre_width-new_x
-
-            output[new_y,new_x,:]=image[i,j,:]
-
-    r, g, b = output[:,:,0], output[:,:,1], output[:,:,2]
-
     bright = float(bright)
+
+    r, g, b = image[:,:,0], image[:,:,1], image[:,:,2]
 
     tr = r * bright
     tg = g * bright
     tb = b * bright
 
-    img2 = np.dstack((tr,tg,tb))
+    tr[tr>255] = 255
+    tg[tg>255] = 255
+    tb[tb>255] = 255
 
+    image_2 = np.dstack((tr,tg,tb))
+    
+    image_3 = set_angle(image_2,angle)
 
-    return img2
+    height_3 = int(image.shape[0]*scale)
+    width_3 = int(image.shape[1]*scale)
+
+    img_final = set_scale(image_3,height_3,width_3)
+
+    return img_final.astype(np.uint8)
 
 @app.route('/apply', methods=['POST'])
 def apply():
@@ -154,14 +174,14 @@ def apply():
         # converte po numpy array
         image_array = cv2.imdecode(np.frombuffer(decoded_data, np.uint8), cv2.IMREAD_COLOR)
         # converte para monocromatica
-        monochrome_image = to_changes(image_array, scale, brightness, rotation)
+        new_image = to_changes(image_array, scale, brightness, rotation)
         # codifica p base64 denovo
-        _, encoded_monochrome = cv2.imencode('.png', monochrome_image)
+        _, encoded_new_image = cv2.imencode('.png', new_image)
 
-        monochrome_data = base64.b64encode(encoded_monochrome).decode('utf-8')
+        new_data = base64.b64encode(encoded_new_image).decode('utf-8')
 
         # devolve a responde
-        return jsonify({'monochrome_data': monochrome_data})
+        return jsonify({'monochrome_data': new_data})
     else:
         # se bichar ent quebra
         return jsonify({'error': 'No image data provided'}), 400

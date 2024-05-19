@@ -2,7 +2,6 @@
     <div class="edit-filters">
       <button class="glow-on-hover" (click)="convertToNormal()">Original</button>
       <button class="glow-on-hover" (click)="convertToMonochrome()">Monocromático</button>
-      <button class="glow-on-hover">Escala</button>
       <button class="glow-on-hover">Translação</button>
       <button class="glow-on-hover" (click)="convertToSepia()">Sépia</button>
       <button class="glow-on-hover" (click)="convertToNegative()">Negativo</button>
@@ -21,13 +20,13 @@
       </div>
     </div>
 
-    <div class="edit-filters">
+    <div class="edit-filters" id="filters-2">
       Escala: <p class="escala">1</p>
-      <input type="range" class="range" min="0.5" max="2" step="0.01" (change)="scaleValue($event)" (oninput)="scaleValue($event)">
+      <input type="range" class="range" value="1" min="0.5" max="2" step="0.01" (change)="scaleValue($event)" (input)="scaleValue($event)">
       Brilho: <p class="brilho">1</p>
-      <input type="range" class="range" min="0" max="2" step="0.01" (change)="brightnessValue($event)" (oninput)="brightnessValue($event)">
+      <input type="range" class="range" value="1" min="0" max="10" step="0.1" (change)="brightnessValue($event)" (input)="brightnessValue($event)">
       Rotação: <p class="rotacao">0</p>
-      <input type="range" class="range" min="0" max="360" step="1" (change)="rotationValue($event)" (oninput)="rotationValue($event)">
+      <input type="range" class="range" value="1" min="0" max="360" step="1" (change)="rotationValue($event)" (input)="rotationValue($event)">
       <button class="glow-on-hover" (click)="applyChanges()">Enviar Alterações</button>
     </div>
 
