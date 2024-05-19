@@ -2,7 +2,6 @@
     <div class="edit-filters">
       <button class="glow-on-hover" (click)="convertToNormal()">Original</button>
       <button class="glow-on-hover" (click)="convertToMonochrome()">Monocromático</button>
-      <button class="glow-on-hover">Translação</button>
       <button class="glow-on-hover" (click)="convertToSepia()">Sépia</button>
       <button class="glow-on-hover" (click)="convertToNegative()">Negativo</button>
       <button class="glow-on-hover" (click)="convertToBlue()">Filtro de Luz Azul</button>
@@ -37,6 +36,12 @@
               <input type="file" name="image" id="image" (change)="onFileSelected($event)">
           </div>
       </form>
+      <div class="edit-filters" style="margin: 0;">
+        <button class="glow-on-hover" id="left" (click)="applyTranslation($event)">Mover 10 pixels para a esquerda</button>
+        <button class="glow-on-hover" id="up" (click)="applyTranslation($event)">Mover 10 pixels para cima</button>
+        <button class="glow-on-hover" id="down" (click)="applyTranslation($event)">Mover 10 pixels para baixo</button>
+        <button class="glow-on-hover" id="right" (click)="applyTranslation($event)">Mover 10 pixels para a direita</button>
+      </div>
       <button class="save-btn" (click)="exportImage()" [disabled]="!image" style="font-size:15px;"> Salvar Imagem</button>
   </div>
 </main>

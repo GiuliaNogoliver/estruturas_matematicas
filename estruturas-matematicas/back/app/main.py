@@ -109,7 +109,7 @@ def set_angle(img,angle):
 
     indices_org = np.array(np.meshgrid(np.arange(h), np.arange(w))).reshape(2, -1)
     indices_new = indices_org.copy()
-    indices_new = np.dot(rotate_m, indices_new).astype(int)   # Apply the affineWrap
+    indices_new = np.dot(rotate_m, indices_new).astype(int)
     mu1 = np.mean(indices_new, axis=1).astype(int).reshape((-1, 1))
     mu2 = np.mean(indices_org, axis=1).astype(int).reshape((-1, 1))
     indices_new += (mu2-mu1)   
@@ -131,6 +131,30 @@ def set_angle(img,angle):
         rotated_image = rotated_image.reshape((h, w))
 
     return rotated_image.astype(np.uint8)
+
+def set_translation(img, dir):
+
+    match dir:
+        case 'left':
+            img_2 = np.zeros_like(img)
+            img_2[:,:-10] = img[:,10:]
+        case 'up':
+            img_2 = np.zeros_like(img)
+            img_2[:-10,:] = img[10:,:]
+        case 'down':
+            img_2 = np.zeros_like(img)
+            img_2[10:,:] = img[:-10,:]
+        case 'right':
+            img_2 = np.zeros_like(img)
+            img_2[:,10:] = img[:,:-10]
+        
+
+    return img_2.astype(np.uint8)
+
+def translation_right(img):
+
+    img_2 = np.zeros_like(img)
+    img_2[:,10:] = img[:,:-10]
 
 def to_changes(img,scale,bright,angle):
 
@@ -182,6 +206,30 @@ def apply():
 
         # devolve a responde
         return jsonify({'monochrome_data': new_data})
+    else:
+        # se bichar ent quebra
+        return jsonify({'error': 'No image data provided'}), 400
+
+@app.route('/translation', methods=['POST'])
+def translation():
+    # pega a ibagem do request
+    data = request.json
+
+    if data:
+        # tira do base64 e coloca em ibagem
+        decoded_data = base64.b64decode(data['image_data'])
+        direction = data['direction']
+        # converte po numpy array
+        image_array = cv2.imdecode(np.frombuffer(decoded_data, np.uint8), cv2.IMREAD_COLOR)
+        # converte para monocromatica
+        trans_image = set_translation(image_array, direction)
+        # codifica p base64 denovo
+        _, encoded_trans_image = cv2.imencode('.png', trans_image)
+
+        new_data = base64.b64encode(encoded_trans_image).decode('utf-8')
+
+        # devolve a responde
+        return jsonify({'trans_data': new_data})
     else:
         # se bichar ent quebra
         return jsonify({'error': 'No image data provided'}), 400

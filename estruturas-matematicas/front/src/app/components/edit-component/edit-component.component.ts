@@ -60,10 +60,10 @@ export class EditComponent {
   }
 
   applyChanges() {
-    if (this.imageUrl) {
+    if (this.ogImageUrl) {
       this.loading[0].style.visibility = "visible";
       // corta a parte que tava estragando e deixa só a base 64
-      const base64Data = this.imageUrl.split(',')[1];
+      const base64Data = this.ogImageUrl.split(',')[1];
       const scaleNum = this.scale[0].innerHTML;
       const brightnessNum = this.brightness[0].innerHTML; 
       const rotationNum = this.rotation[0].innerHTML;
@@ -72,6 +72,37 @@ export class EditComponent {
         .subscribe((response: any) => {
           // tira a imagem de base64 e coloca no lugar da colorida
           this.imageUrl = 'data:image/jpeg;base64,' + response.monochrome_data;
+          this.loading[0].style.visibility = "hidden";
+        });
+    }
+  }
+
+  applyTranslation(event: any) {
+    var direction;
+    switch (event.target.id){
+      case 'left':
+        direction = 'left';
+        break;
+      case 'up':
+        direction = 'up';
+        break;
+      case 'down':
+        direction = 'down';
+        break;
+      case 'right':
+        direction = 'right';
+        break;
+    }
+    console.log(direction)
+    if (this.imageUrl) {
+      this.loading[0].style.visibility = "visible";
+      // corta a parte que tava estragando e deixa só a base 64
+      const base64Data = this.imageUrl.split(',')[1];
+      // chama o back e manda somente a imagem em base64
+      this.http.post<string>('http://127.0.0.1:5000/translation', { image_data: base64Data, direction: direction })
+        .subscribe((response: any) => {
+          // tira a imagem de base64 e coloca no lugar da colorida
+          this.imageUrl = 'data:image/jpeg;base64,' + response.trans_data;
           this.loading[0].style.visibility = "hidden";
         });
     }
