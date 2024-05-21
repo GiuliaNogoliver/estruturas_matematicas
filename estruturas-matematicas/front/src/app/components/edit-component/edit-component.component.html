@@ -37,10 +37,10 @@
           </div>
       </form>
       <div class="edit-filters" style="margin: 0;">
-        <button class="glow-on-hover" id="left" (click)="applyTranslation($event)">Mover 10 pixels para a esquerda</button>
-        <button class="glow-on-hover" id="up" (click)="applyTranslation($event)">Mover 10 pixels para cima</button>
-        <button class="glow-on-hover" id="down" (click)="applyTranslation($event)">Mover 10 pixels para baixo</button>
-        <button class="glow-on-hover" id="right" (click)="applyTranslation($event)">Mover 10 pixels para a direita</button>
+        <input type="number" class="input"><button class="glow-on-hover" id="left" (click)="applyTranslation($event)">Mover para a esquerda</button>
+        <input type="number" class="input"><button class="glow-on-hover" id="up" (click)="applyTranslation($event)">Mover para cima</button>
+        <input type="number" class="input"><button class="glow-on-hover" id="down" (click)="applyTranslation($event)">Mover para baixo</button>
+        <input type="number" class="input"><button class="glow-on-hover" id="right" (click)="applyTranslation($event)">Mover para a direita</button>
       </div>
       <button class="save-btn" (click)="exportImage()" [disabled]="!image" style="font-size:15px;"> Salvar Imagem</button>
   </div>

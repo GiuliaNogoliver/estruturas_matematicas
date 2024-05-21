@@ -10,7 +10,7 @@
 }
 
 .container .gallery-container{
-  margin: 40px 5% 10px 5%;
+  margin: 60px 5% 60px 5%;
 }
 
 .navbar-list{
@@ -32,12 +32,35 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
   .image:nth-child(7){
-    align-self: center;
-    justify-self: center;
-    width: 80%;
+    width: 60%;
     height: auto;
   }
+  .image:hover{
+    .img-alt-text{
+      opacity: 1;
+    }
+    img{
+      opacity: .3;
+    }
+  }
+}
+
+.img-alt-text{
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: .5s ease-in-out;
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
 }
 
 .image:nth-child(9){
@@ -45,8 +68,10 @@
 }
 
 .container .gallery-container .gallery .image{
-  width: 100%;
+  position: relative;
+  width: 80%;
   text-align: center;
+  transition: .5s ease-in-out;
 }
 
 .container .gallery-container .gallery .image img{
@@ -55,13 +80,16 @@
   border-radius: 5%;
   animation: fadeIn 1s linear;
   transition: 1s all ease;
+  justify-self: center;
+  align-self: center;
+  text-align: center;
 }
 
 .container .main-edit{
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: rgb(0, 16, 65);
+  background-color: #191970;
   color: white;
 }
 
@@ -84,11 +112,30 @@
   padding: 15px 10px;
 }
 
-.container .main-edit img{
-  width: 450px;
+.container .main-edit .img{
+  width: (1280px)/3;
+  height: (720px)/3;
+  background-position: center;
+  background-size: cover;
   border-radius: 15px;
   margin: 15px 0;
-  animation: fadeIn 1s linear;
+  background-image: url("../../../assets/mainImg01.jpg");
+  animation: changeImg 40s infinite;
+}
+
+@keyframes changeImg {
+  20%{
+    background-image: url("../../../assets/mainImg02.jpg");
+  }
+  40%{
+    background-image: url("../../../assets/mainImg03.jpg");
+  }
+  60%{
+    background-image: url("../../../assets/mainImg04.jpg");
+  }
+  80%{
+    background-image: url("../../../assets/mainImg05.jpg");
+  }
 }
 
 // -- parte destinada à animação do carrossel --

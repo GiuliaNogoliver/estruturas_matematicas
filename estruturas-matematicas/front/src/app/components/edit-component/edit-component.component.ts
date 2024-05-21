@@ -21,7 +21,8 @@ export class EditComponent {
   scale = document.getElementsByClassName('escala') as HTMLCollectionOf<HTMLElement>;
   brightness = document.getElementsByClassName('brilho') as HTMLCollectionOf<HTMLElement>;
   rotation = document.getElementsByClassName('rotacao') as HTMLCollectionOf<HTMLElement>;
-  ranges = document.getElementsByTagName('range')  as HTMLCollectionOf<HTMLElement>;
+  ranges = document.getElementsByTagName('range') as HTMLCollectionOf<HTMLElement>;
+  inputText = document.getElementsByClassName('input') as HTMLCollectionOf<HTMLInputElement>;
 
   constructor(private http: HttpClient) {
   }
@@ -77,27 +78,32 @@ export class EditComponent {
 
   applyTranslation(event: any) {
     var direction;
+    var dirValue;
     switch (event.target.id){
       case 'left':
         direction = 'left';
+        dirValue = this.inputText[0].value;
         break;
       case 'up':
         direction = 'up';
+        dirValue = this.inputText[1].value;
         break;
       case 'down':
         direction = 'down';
+        dirValue = this.inputText[2].value;
         break;
       case 'right':
         direction = 'right';
+        dirValue = this.inputText[3].value;
         break;
     }
-    console.log(direction)
-    if (this.imageUrl) {
+    console.log(dirValue)
+    if (this.ogImageUrl) {
       this.loading[0].style.visibility = "visible";
       // corta a parte que tava estragando e deixa só a base 64
-      const base64Data = this.imageUrl.split(',')[1];
+      const base64Data = this.ogImageUrl.split(',')[1];
       // chama o back e manda somente a imagem em base64
-      this.http.post<string>('http://127.0.0.1:5000/translation', { image_data: base64Data, direction: direction })
+      this.http.post<string>('http://127.0.0.1:5000/translation', { image_data: base64Data, direction: direction, value_data: dirValue })
         .subscribe((response: any) => {
           // tira a imagem de base64 e coloca no lugar da colorida
           this.imageUrl = 'data:image/jpeg;base64,' + response.trans_data;

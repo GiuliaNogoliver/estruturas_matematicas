@@ -132,21 +132,21 @@ def set_angle(img,angle):
 
     return rotated_image.astype(np.uint8)
 
-def set_translation(img, dir):
-
+def set_translation(img, dir,value):
+    value = int(value)
     match dir:
         case 'left':
             img_2 = np.zeros_like(img)
-            img_2[:,:-10] = img[:,10:]
+            img_2[:,:-value] = img[:,value:]
         case 'up':
             img_2 = np.zeros_like(img)
-            img_2[:-10,:] = img[10:,:]
+            img_2[:-value,:] = img[value:,:]
         case 'down':
             img_2 = np.zeros_like(img)
-            img_2[10:,:] = img[:-10,:]
+            img_2[value:,:] = img[:-value,:]
         case 'right':
             img_2 = np.zeros_like(img)
-            img_2[:,10:] = img[:,:-10]
+            img_2[:,value:] = img[:,:-value]
         
 
     return img_2.astype(np.uint8)
@@ -219,10 +219,11 @@ def translation():
         # tira do base64 e coloca em ibagem
         decoded_data = base64.b64decode(data['image_data'])
         direction = data['direction']
+        value = data['value_data']
         # converte po numpy array
         image_array = cv2.imdecode(np.frombuffer(decoded_data, np.uint8), cv2.IMREAD_COLOR)
         # converte para monocromatica
-        trans_image = set_translation(image_array, direction)
+        trans_image = set_translation(image_array, direction,value)
         # codifica p base64 denovo
         _, encoded_trans_image = cv2.imencode('.png', trans_image)
 
