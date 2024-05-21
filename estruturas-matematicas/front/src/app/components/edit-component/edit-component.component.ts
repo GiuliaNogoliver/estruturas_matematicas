@@ -46,9 +46,7 @@ export class EditComponent {
 
     reader.onload = (e: any) => {
       this.imageUrl = e.target.result as string;
-      this.ogImageUrl = e.target.result as string;
-      this.selectedImage[0].style.border = "ridge #8592ad 5px";
-      this.selectedImage[0].style.borderRadius = "8px";
+      this.ogImageUrl = e.target.result as string;  
       this.editCanvas[0].style.border = "none";
       this.editCanvas[0].style.borderRadius = "none";
       this.image = true;

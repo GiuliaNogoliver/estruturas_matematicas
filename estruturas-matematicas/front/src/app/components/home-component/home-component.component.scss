@@ -13,10 +13,17 @@
   margin: 40px 5% 10px 5%;
 }
 
+.navbar-list{
+  list-style: none;
+  .navbar-link{
+    margin: -12px;
+    font-size: 2rem;
+  }
+}
+
 .container .gallery-container .gallery-text{
   width: 100%;
   text-align: center;
-
   font-size: 2rem;
   margin-bottom: 2%;
 }
@@ -25,10 +32,21 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px;
+  .image:nth-child(7){
+    align-self: center;
+    justify-self: center;
+    width: 80%;
+    height: auto;
+  }
+}
+
+.image:nth-child(9){
+  grid-column: 2;
 }
 
 .container .gallery-container .gallery .image{
   width: 100%;
+  text-align: center;
 }
 
 .container .gallery-container .gallery .image img{
@@ -39,14 +57,19 @@
   transition: 1s all ease;
 }
 
-.container .main-edit .edit{
+.container .main-edit{
   display: flex;
   justify-content: space-around;
   align-items: center;
-
-  padding: 15px;
-  background-color: #191970;
+  background-color: rgb(0, 16, 65);
   color: white;
+}
+
+.container .main-edit .edit {
+  margin-top: 100px;
+  margin-right: 300px;
+  width: 900px;
+  height: 300px;
 }
 
 .container .main-edit .edit .edit-text{
@@ -61,19 +84,12 @@
   padding: 15px 10px;
 }
 
-.container .main-edit .edit img{
+.container .main-edit img{
   width: 450px;
   border-radius: 15px;
   margin: 15px 0;
   animation: fadeIn 1s linear;
 }
-
-
-//@keyframes fadeIn {
-//  0% { opacity: 0; }
-//  100% { opacity: 1; }
-//}
-
 
 // -- parte destinada à animação do carrossel --
 $size-width: 900px;
@@ -106,9 +122,6 @@ $size-height: 600px;
     height: $size-height;
     background-size: cover;
     background-position: center;
-  }
-  &:hover {
-    animation-play-state: paused;
   }
   .image-one {
     background-image: url("../../../assets/exampleImageColored.png");

@@ -151,42 +151,42 @@
   min-height: 400px;
   width: 100%;
 
-  img {
-    display: inline;
-    max-height: 100%;
-    max-width: 100%;
-  }
   .edit-canvas {
-    width: 900px;
-    height: 600px;
-    max-width: 1200px;
-    max-height: 720px;
+    position: relative;
+    width: 900px * 1.3;
+    height: 600px * 1.4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 25px 0px rgba(46, 61, 73, 0.2);
+    border-radius: 20px;
+    max-width: 1200px * 1.3;
+    max-height: 720px * 1.4;
     display: flex;
     align-items: center;
     justify-content: center;
     align-content: center;
-    max-width: 80%;
-    border: ridge #8592ad 5px;
-    border-radius: 8px;
+    overflow: hidden;
+    img {
+      display: inline;
+      max-height: 600px;
+      max-width: 900px;
+    }
+    .loading {
+      position: absolute;
+      height: 100%;
+      display: flex;
+      z-index: 1;
+      align-items: center;
+      justify-content: center;
+      align-content: center;
+      background-color: #fff;
+      // opacity: 0;
+      visibility: hidden;
+      animation: blink 4s infinite linear;
+    }
   }
 
-  .loading {
-    position: absolute;
-    width: 950px;
-    height: 650px;
-    max-width: 1250px;
-    max-height: 770px;display: flex;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    max-width: 80%;
-    z-index: 1;
-    background-color: #fff;
-    // opacity: 0;
-    visibility: hidden;
-
-    animation: blink 4s infinite linear;
-  }
 }
 
 @keyframes glowing {
