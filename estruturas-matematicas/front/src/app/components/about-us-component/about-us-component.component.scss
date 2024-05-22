@@ -37,6 +37,10 @@
     transform: translateY(-40px);
     transition: .5s ease-in-out;
   }
+  a{
+    color: #191970;
+    text-decoration: none;
+  }
   &:hover{
     width: 500px;
     height: 500px;
@@ -44,12 +48,17 @@
       opacity: 1;
       transform: translateY(10px);
     }
+    img{
+      width: 60%;
+      border-radius: 20px;
+    }
   }
 }
 
 .about-people .people img{
   width: 30%;
   border-radius: 50%;
+  transition: .5s ease-in-out;
 }
 
 .card {
